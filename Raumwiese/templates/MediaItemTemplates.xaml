@@ -1,0 +1,163 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"                 
+                    xmlns:raumfeld="clr-namespace:RaumfeldNET;assembly=RaumfeldNET"
+                    xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+                    xmlns:gif="clr-namespace:WpfAnimatedGif;assembly=WpfAnimatedGif"
+                    xmlns:local="clr-namespace:Raumwiese"
+                    xmlns:RFWpfControls="clr-namespace:RaumfeldNET.WPFControls;assembly=RaumwieseWPFControls"
+                    xmlns:behaviours="clr-namespace:Raumwiese.Behaviours">
+
+    <Color x:Key="ListLineColor">#585858</Color>
+    <SolidColorBrush x:Key="ListLineBrush" Color="{StaticResource ListLineColor}" />
+
+
+    <!-- Visual template for general container view -->
+    <DataTemplate DataType="{x:Type raumfeld:MediaItem}">
+        <Grid Name="MainGrid">            
+            <RFWpfControls:MediaItemViewerControl
+                ImageVisibility="Collapsed"
+                TextLeft="{Binding Path=text}"/>
+        </Grid>
+    </DataTemplate>
+
+    <!-- Visual template for artist view -->
+    <DataTemplate DataType="{x:Type raumfeld:MediaItem_Artist}">
+        <Grid Name="MainGrid">
+            <RFWpfControls:MediaItemViewerControl
+                ImageSource="{Binding imageBitmapThumbnail}"
+                TextLeft="{Binding Path=text}"/>
+        </Grid>      
+    </DataTemplate>
+
+    <!-- Visual template for album view -->
+    <DataTemplate DataType="{x:Type raumfeld:MediaItem_Album}">
+        <Grid Name="MainGrid">
+            <RFWpfControls:MediaItemViewerControl
+                ImageSource="{Binding imageBitmapThumbnail}"
+                TextLeft="{Binding Path=album}"
+                TextRight="{Binding Path=genre}"
+                SubTextLeft="{Binding Path=artist}"
+                SubTextRight="{Binding Path=date}"
+                />
+        </Grid>        
+    </DataTemplate>
+
+    <!-- Visual template for general trackContainer-->
+    <DataTemplate DataType="{x:Type raumfeld:MediaItem_TrackContainer}">
+        <Grid Name="MainGrid">
+            <RFWpfControls:MediaItemViewerControl
+                ImageSource="{Binding imageBitmapThumbnail}"
+                TextLeft="{Binding Path=text}"
+                SubTextLeft="{Binding Path=artist}"/>
+        </Grid>
+    </DataTemplate>
+
+    <!-- Visual template for Playlist view -->
+    <DataTemplate DataType="{x:Type raumfeld:MediaItem_Playlist}">
+        <Grid Name="MainGrid">
+            <RFWpfControls:MediaItemViewerControl
+                ImageSource="{Binding imageBitmapThumbnail}"
+                TextLeft="{Binding Path=text}"
+                SubTextLeft="{Binding Path=trackCount}"/>
+        </Grid>
+    </DataTemplate>
+
+    <!-- Visual template for track view -->
+    <DataTemplate DataType="{x:Type raumfeld:MediaItem_Track}">
+        <Grid Name="MainGrid">
+            <RFWpfControls:MediaItemViewerControl
+                ImageSource="{Binding imageBitmapThumbnail}"
+                TextLeft="{Binding Path=title}"
+                TextRight="{Binding Path=durationFormatted}"
+                SubTextLeft="{Binding Path=artist}"/>
+        </Grid>
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding isSelectedForPlaying}" Value="True">
+                <Setter TargetName="MainGrid" Property="Background" Value="{DynamicResource TrackIsPlayingBrush}"/>
+                <!--<Setter TargetName="IsPlayingImage" Property="Visibility" Value="Visible"/>-->
+            </DataTrigger>
+            <DataTrigger Binding="{Binding isSelectedForPlaying}" Value="False">
+                <Setter TargetName="MainGrid" Property="Background" Value="Transparent"/>
+                <!--<Setter TargetName="IsPlayingImage" Property="Visibility" Value="Hidden"/>-->
+            </DataTrigger>
+                        
+                        
+        </DataTemplate.Triggers>
+
+    </DataTemplate>
+
+    <!-- Visual template for Radio view -->
+    <DataTemplate DataType="{x:Type raumfeld:MediaItem_Radio}">
+        <Grid Name="MainGrid">
+            <RFWpfControls:MediaItemViewerControl
+                ImageSource="{Binding imageBitmapThumbnail}"
+                TextLeft="{Binding Path=radioName}"
+                SubTextLeft="{Binding Path=radioInfo}"
+                SubTextRight="{Binding Path=bitrate}"/>
+        </Grid>
+        
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding isSelectedForPlaying}" Value="True">
+                <Setter TargetName="MainGrid" Property="Background" Value="{DynamicResource TrackIsPlayingBrush}"/>
+                <!--<Setter TargetName="IsPlayingImage" Property="Visibility" Value="Visible"/>-->
+            </DataTrigger>
+            <DataTrigger Binding="{Binding isSelectedForPlaying}" Value="False">
+                <Setter TargetName="MainGrid" Property="Background" Value="Transparent"/>
+                <!--<Setter TargetName="IsPlayingImage" Property="Visibility" Value="Hidden"/>-->
+            </DataTrigger>
+
+            
+        </DataTemplate.Triggers>
+
+    </DataTemplate>
+
+    <!-- Visual template for LastFM view -->
+    <DataTemplate DataType="{x:Type raumfeld:MediaItem_LastFm}">
+        <Grid Name="MainGrid">
+            <RFWpfControls:MediaItemViewerControl
+                ImageSource="{Binding imageBitmapThumbnail}"
+                TextLeft="{Binding Path=radioName}"
+                SubTextLeft="{Binding Path=radioInfo}"/>
+        </Grid>
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding isSelectedForPlaying}" Value="True">
+                <Setter TargetName="MainGrid" Property="Background" Value="{DynamicResource TrackIsPlayingBrush}"/>
+                <!--<Setter TargetName="IsPlayingImage" Property="Visibility" Value="Visible"/>-->
+            </DataTrigger>
+            <DataTrigger Binding="{Binding isSelectedForPlaying}" Value="False">
+                <Setter TargetName="MainGrid" Property="Background" Value="Transparent"/>
+                <!--<Setter TargetName="IsPlayingImage" Property="Visibility" Value="Hidden"/>-->
+            </DataTrigger>
+            
+        </DataTemplate.Triggers>
+
+    </DataTemplate>
+
+    
+    <!-- Visual template for NapsterRadio view -->
+    <DataTemplate DataType="{x:Type raumfeld:MediaItem_RhapsodyRadio}">
+        <Grid Name="MainGrid">
+            <RFWpfControls:MediaItemViewerControl
+                ImageSource="{Binding imageBitmapThumbnail}"
+                TextLeft="{Binding Path=radioName}"
+                SubTextLeft="Napster Radio"/>
+        </Grid>
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding isSelectedForPlaying}" Value="True">
+                <Setter TargetName="MainGrid" Property="Background" Value="{DynamicResource TrackIsPlayingBrush}"/>
+                <!--<Setter TargetName="IsPlayingImage" Property="Visibility" Value="Visible"/>-->
+            </DataTrigger>
+            <DataTrigger Binding="{Binding isSelectedForPlaying}" Value="False">
+                <Setter TargetName="MainGrid" Property="Background" Value="Transparent"/>
+                <!--<Setter TargetName="IsPlayingImage" Property="Visibility" Value="Hidden"/>-->
+            </DataTrigger>
+
+        </DataTemplate.Triggers>
+
+    </DataTemplate>
+
+
+</ResourceDictionary>

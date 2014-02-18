@@ -1,0 +1,120 @@
+﻿<UserControl 
+    Name="RotaryButton"
+    x:Class="RaumfeldNET.WPFControls.RotaryButtonControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:local="clr-namespace:RaumfeldNET.WPFControls"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+                <ResourceDictionary Source="Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <local:MathConverter x:Key="MathConverter" />
+            <local:ValueAngleConverter x:Key="valueAngleConverter"/>
+            <local:ValueTextConverter x:Key="valueTextConverter"/>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Name="MainGrid">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <!--<RowDefinition Height="20"></RowDefinition>-->
+        </Grid.RowDefinitions>
+
+        <Label Grid.RowSpan="3" 
+               HorizontalAlignment="Stretch" 
+               VerticalAlignment="Stretch" 
+               MouseMove="DummyLabel_MouseMove"
+               MouseUp="DummyLabel_MouseUp"
+               />
+        
+        <Slider Grid.Row="1" Name="knob" 
+                Minimum="{Binding Path=ValueFrom, ElementName=RotaryButton}"
+                Maximum="{Binding Path=ValueTo, ElementName=RotaryButton}"
+                Value="{Binding Path=Value, ElementName=RotaryButton}"
+                Margin="40,20,40,20">
+            <Slider.Template>
+                <ControlTemplate>
+                    <Viewbox>
+                        <Canvas Width="300" Height="300" Margin="5">
+
+                            <Image Name="VolumeButtonImage" Source="/resources/volumeButton2.png" Width="300" Height="300">                             
+                                <Image.RenderTransform>
+                                    <RotateTransform Angle="{Binding Path=Angle, ElementName=RotaryButton}" CenterX="150" CenterY="150"/>
+                                </Image.RenderTransform>
+                            </Image>
+                            <Ellipse Fill="Transparent" Width="300" Height="300" Canvas.Left="0" Canvas.Top="0" 
+                                    Stroke="Black" StrokeThickness="0"
+                                    MouseMove="Ellipse_MouseMove"
+                                    MouseUp="Ellipse_MouseUp"/>
+                            <!--<Ellipse Fill="Black" Width="6" Height="6" Canvas.Left="147" Canvas.Top="147"/>-->
+                            <Canvas>
+                                <!--<Line Stroke="Red" StrokeThickness="5" X1="150" Y1="150" X2="150" Y2="10"/>-->
+                                <Ellipse Fill="DarkGray"
+                                         Width="20" Height="20" Canvas.Left="140" Canvas.Top="20"
+                                         StrokeThickness="1" Stroke="Gray">
+                                    <Ellipse.ToolTip>
+                                        <ToolTip>
+                                            <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value" Converter="{StaticResource valueTextConverter}"/>
+                                        </ToolTip>
+                                    </Ellipse.ToolTip>
+                                </Ellipse>
+                                <Canvas.RenderTransform>
+                                    <RotateTransform CenterX="150" CenterY="150">
+                                        <RotateTransform.Angle>
+                                            <MultiBinding Converter="{StaticResource valueAngleConverter}">
+                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value"/>
+                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Minimum"/>
+                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Maximum"/>
+                                            </MultiBinding>
+                                        </RotateTransform.Angle>
+                                    </RotateTransform>
+                                </Canvas.RenderTransform>
+                            </Canvas>
+                        </Canvas>
+                    </Viewbox>
+                </ControlTemplate>
+            </Slider.Template>
+        </Slider>
+        
+        <TextBlock Grid.Row="1" Name="CurrentValue" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center"
+                   Foreground="Black"
+                   FontWeight="Bold"
+                   FontSize="25"
+                   Text="100"/>
+    </Grid>
+
+    <!--
+    <Grid>
+        <Ellipse Width="{Binding Path=Diameter, ElementName=RotaryButton}"
+                 Height="{Binding Path=Diameter, ElementName=RotaryButton}"
+                 Stroke="White"
+                 StrokeThickness="2"/>
+        <Line X1="{Binding Path=Diameter, ElementName=RotaryButton, Converter={StaticResource MathConverter}, ConverterParameter=x/2}" 
+              Y1="{Binding Path=Diameter, ElementName=RotaryButton, Converter={StaticResource MathConverter}, ConverterParameter=x/2}"
+              X2="{Binding Path=markerXPos, ElementName=RotaryButton}"
+              Y2="{Binding Path=markerYPos, ElementName=RotaryButton}"
+              Stroke="White"
+              StrokeThickness="2"/>
+    </Grid>
+    -->
+
+</UserControl>

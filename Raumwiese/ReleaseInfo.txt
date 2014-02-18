@@ -1,0 +1,150 @@
+﻿/* TODOS:
+ * 
+ * v1.0.0.0 (Lucy)
+ * #DONE moving items in playlist
+ * #DONE adding items to playlist 
+ * #DONE delete items from playlist
+ * #DONE drag N drop to playlistView
+ * #DONE delete multiple items from playlist 
+ * #DONE 'one item' playlist handling
+ * #DONE play next bug when creating queue or adding items to queue (list stops plaing and i don't know why)
+ * #DONE play, pause, stop
+ * #DONE Play on doubleclick and Enter
+ * #DONE Currently playing marking in grid
+ * #DONE progress bar + seeking
+ * #DONE volume handling
+ * #DONE finding request url for raumfeld host (damn upnp stack seems to have no ip info)
+ * #DONE progress bar update (Info an time)
+ * #DONE allow adding TuneIn Objects
+ * #DONE remove intel UPNP
+ * #DONE Zone selection update (create nicer view)
+ * #DONE searching list searching in selected music library (rhapsody, mymusic,....)
+ * #DONE correct playing status when moving or adding item in front of the "current playing" item
+ * 
+ *
+ * v1.0.0.1
+ * Abstürze werden nun in einem File (exception.log) im Ordner der der Raumwiese protokolliert
+ * Initialinfo wurde aufgeteilt auf MedienServer finden / MedienServer IP resolven / initial Zonen request lesen (um besser feststellen zu können wo system hängen bleibt, wenn es hängen bleibt)
+ * Doppelklick auf Item unterster Ebene (z.B. Song) bringt kein Laufrad mehr.
+ * "All Tracks from ..." kann nun auch per DragNDrop in die Playlist gezogen werden
+ *
+ *
+ * v1.0.0.2
+ * Textbox für suche bekommt nun automatisch Focus wenn man die Suche öffnet
+ * Weitere Fehlerbehandlung beim laden von Zonen um Absturz zu vermeiden.
+ * Popup Menü wenn Klick auf Cover bei Items welche zur Playlist hinzugefügt werden können
+ * Cover werden gecached (persistent)
+ *
+ *
+ * v1.0.0.3
+ * Absturz bei fehlenden Farbinformationen bei Renderern behoben
+ * Playlisten können in Titelliste eingefügt werden
+ * Performance verbesserung bei Titelliste scrollen (Cover Thumbnails)
+ * Standardbild für Items hinzugefügt
+ *
+ *
+ * v1.0.0.4
+ * Weiter Fehlerlogs für behandelte Ausnhamen
+ * Request für Zonen nun viel schneller (Schnellerer Start)
+ * Album Item zeigt nun auch Jahr und Genre
+ *
+ *
+ * v1.0.0.5
+ * Zonenverwaltung ist implementiert (per Kontextmenü / noch kein DragNDrop)
+ * Abstürze beim eventLog schreiben (Wenn z.B keine Berechtigung fürs Fileschreiben) werden in einer MsgBox ausgegeben.
+ *
+ *
+ * v1.0.0.6
+ * Weiteren Absturz behoben wenn ein Renderer keine Raumfeld Farbe zugewiesen hat.
+ * Laustärkeregelung wurde verbessert. Achtung: Klick auf Regler lässt Regler neuerdings zum Click springen!
+ * Suche sucht nun autom. wenn sich Suchfeld eine halbe sekunde lang nicht ändert
+ * Räume und Zonen lassen sich nun Muten
+ *
+ *
+ * v1.0.1.0
+ * Raumwiese hat neuen Kernel erhalten
+ * EXE File hat nun passendes Icon
+ * Playlistenmanagement hinzugefügt (Menüleiste unten)
+ * Löschen, Hinzufügen, Ändern von Playlisten ist via Drag N Drop möglich
+ * Diverse kleinere Bugfixes
+ * Passende Main Items beim Content Browser 
+ * [BUG] Manchmal aktualisiert sich die Titelliste nicht nach AppStart
+ *
+ *
+ * v1.0.1.1
+ * Multiselect DragNDrop von ContentBrowser in Playliste und Titelliste möglich (Strg Taste) 
+ * Multiselect funktioniert auch mit Kontext Menü
+ * ContentBrowser Buttons haben nun wieder einen Infotext
+ * Rechte Maustatse öffnet Kontextmenü im ContentBrowser
+ * Komplette 'Artists' können in die Titel/Playliste geschoben werden
+ *
+ *
+ * v1.0.1.2
+ * [BUGFIX] Timeouts beim hinzufügen von Titeln zu Listen verursachen keinen Absturz mehr
+ * [BUGFIX] Context Menütext bei Mehrfachselektion ist korrigiert (TEXT: "und x weitere")
+ * [BUGFIX] Deadlock bei "PlayNext" im Kontextmenü behoben
+ * Importierte Playlisten können in die Titelliste eingefügt werden
+ * Playlisten und TrackContainer bekommen einen Random Cover aus den vorhandenen Covers
+ * "Search" Items werden nicht mehr im ContentBrowser angezeigt
+ * Napster/Rhapsody Radio wird nun unterstützt
+.* Shuffle und Repeat sind verfügbar
+ *
+ *
+ * v1.0.1.3
+ * [BUGFIX] Laden von Listen mit irregulären TrackNr. führt nicht mehr zu Absturz
+ * Applikationsparamter "-logall" ermöglicht logging von info
+ * Neue Lautstärkeregelung mit Drehknopf (RF-App Like)
+ * LineIn kann nun in Playliste gezogen werden
+ * Info wenn neue Version verfügbar ist
+ *
+ * v1.0.1.4
+ * Unterstützung für mehrere Netzwerke via subnetindex Parameter (z.B: "-subnetindex 1")
+ *
+ *
+ * v1.0.1.5
+ * [BUGFIX] Absturz bei Start von Raumwiese behoben wenn keine Cover in der Datenbank vorhanden sind
+ * [BUGFIX] Raumwiese stürzt nicht mehr ab wenn log File gesperrt ist.
+ * [BUGFIX] Diverse Fixes
+ * //Release instead of Debug mode!
+ *
+ *
+ *
+ * v1.0.1.6
+ * TODO: "J" Search (In List Search) Sucht in geladener liste nach titel und´bei Auswahl wird dorthin gesprungen
+ * TODO: Favouriten verwalten
+ * TODO: Favouriten Handling bei Kontext Menü
+ * TODO: Kontextmenü verschönern
+ *
+ * v1.0.1.7
+ * TODO: Einstellungen Seite
+ * TODO: Es kann zw. "Flyout" und "In Liste" Suche geändert werden (nur Unterschied im GUI)
+ * TODO: Playlist rename
+ * TODO: Playlist Kontextmenü update
+ * TODO: Playlist Handling bei Content Kontext Menü
+ * 
+ * v1.0.2.0
+ * Auto install neue Version
+ * Touch version
+ *
+ *
+ * v1.1 (Jess)
+ * 'better' Error handling (timeouts on browsing, searching)
+ * standard images for Artists / Albums / Tracks
+ * right click popup menu (add to favourites, add to playlist))
+ * Radio stream quality selection (on drop on list let choose)
+ * moving multiple items in playlist
+ * 
+ * v1.2 (first releaseable Version)
+ * browsing list item hiding (only show necessary items)
+ * direct search in browsing list (sub list) ?? needed ??
+ * 
+ * 
+ * v2.0
+ * windows 8 compatibilty
+ * touch compatibilty
+ * Touchscreen browsing (one click trigger, submenu for queueing items)
+ * 
+ * v2.5
+ * windows 8 tablet compatibility
+ * 
+*/

@@ -1,0 +1,71 @@
+﻿<UserControl 
+    Name="ImageButton"
+    x:Class="RaumfeldNET.WPFControls.ImageButtonControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+                <ResourceDictionary Source="Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+        <Grid Name="MainGrid" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0,10,0" Height="{Binding Path=Height, ElementName=ImageButton}" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+        <Rectangle Fill="Transparent" />
+
+        <Image Name="ButtonImage" Grid.Column="0" Source="{Binding Path=ImageSource, ElementName=ImageButton}" VerticalAlignment="Center"
+                   Width="{Binding Path=ImageWidth, ElementName=ImageButton}" 
+                   Height="{Binding Path=ImageHeight, ElementName=ImageButton}"                    
+                   />
+
+        <TextBlock Name="ButtonText" Grid.Column="2" VerticalAlignment="Center" Height="{Binding Path=Height, ElementName=ImageButton}"
+                       Text="{Binding Path=Text, ElementName=ImageButton}"
+                       FontSize="{Binding Path=FontSize, ElementName=ImageButton}"
+                       Foreground="{Binding Path=Foreground, ElementName=ImageButton}"
+                       />
+
+        <Grid.Style>
+            <Style TargetType="{x:Type Grid}">
+                <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="False">
+                        <Setter Property="Opacity" Value="1"></Setter>
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Opacity" Value="1"></Setter>
+                        <Setter Property="RenderTransform">
+                            <Setter.Value>
+                                <ScaleTransform ScaleX="0.95"
+                                                    ScaleY="0.95"
+                                                    CenterX="0.5"
+                                                    CenterY="0.5" />
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
+
+
+    </Grid>
+
+</UserControl>

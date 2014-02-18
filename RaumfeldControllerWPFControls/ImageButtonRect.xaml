@@ -1,0 +1,79 @@
+﻿<UserControl 
+    Name="ImageButtonRect"
+    x:Class="RaumfeldNET.WPFControls.ImageButtonRectControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+                <ResourceDictionary Source="Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <!-- Rounded border -->
+    <Border CornerRadius="0" Padding="0"
+        Width="{Binding Path=Width, ElementName=ImageButtonRect}" Height="{Binding Path=Width, ElementName=ImageButtonRect}"
+        HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource AccentColorBrush}">
+
+        <Border.Style>
+            <Style TargetType="{x:Type Border}">
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="False">
+                        <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush}"></Setter>
+                        <Setter Property="BorderThickness" Value="0"></Setter>
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="BorderBrush" Value="White"></Setter>
+                        <Setter Property="BorderThickness" Value="2"></Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+
+        <Grid Name="MainGrid">
+
+            <Rectangle Fill="Transparent"/>
+            
+
+            
+            <!-- Rounded mask (stretches to fill Grid) -->
+            <!--<Border Name="mask" Background="{DynamicResource AccentColorBrush}" CornerRadius="8"/>-->
+
+            <!-- Main content container -->
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <!-- Use a VisualBrush of 'mask' as the opacity mask -->
+                <!--
+                <StackPanel.OpacityMask>
+                    <VisualBrush Visual="{Binding ElementName=mask}"/>
+                </StackPanel.OpacityMask>
+                -->
+
+                <!-- Any content -->
+                <Image HorizontalAlignment="Center" Width="{Binding Path=ImageWidth, ElementName=ImageButtonRect}"  Height="{Binding Path=ImageHeight, ElementName=ImageButtonRect}" Source="{Binding Path=ImageSource, ElementName=ImageButtonRect}"/>
+                <!--<Image Width="50"  Height="{Binding Path=Height, ElementName=ImageButtonRect}" Source="Resources/mymusic.png"/>-->
+
+                <TextBlock FontSize="9" HorizontalAlignment="Center" Text="{Binding Path=Text, ElementName=ImageButtonRect}"></TextBlock>
+                
+            </StackPanel>
+
+        </Grid>
+
+    </Border>
+
+
+
+</UserControl>

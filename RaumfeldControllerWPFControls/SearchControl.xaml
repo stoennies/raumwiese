@@ -1,0 +1,54 @@
+﻿<UserControl 
+    Name="SearchContent"
+    x:Class="RaumfeldNET.WPFControls.SearchContentControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    mc:Ignorable="d" RenderTransformOrigin="0,0">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+                <ResourceDictionary Source="Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid Name="MainGrid">
+        <Grid Margin="10,0,10,0" Name="SearchGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="3"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <TextBox HorizontalAlignment="Stretch" Margin="3,0,3,0" Grid.ColumnSpan="3" Name="TextBoxSearchObject" 
+                                             Controls:TextboxHelper.Watermark="Bitte Suchbegriff eingeben..." 
+                                             Controls:TextboxHelper.ClearTextButton="True" MinHeight="25" VerticalContentAlignment="Center" UseLayoutRounding="False" FontSize="14"/>
+            <Button Name="SearchButtonArtist" Grid.Row="2" Grid.Column="0" Content="Artist" FontSize="12" Click="SearchButtonArtist_Click" >           
+            </Button>
+            <Button Name="SearchButtonAlbum" Grid.Row="2" Grid.Column="1" Content="Album" FontSize="12" Click="SearchButtonAlbum_Click" ></Button>
+            <Button Name="SearchButtonTrack" Grid.Row="2" Grid.Column="2" Content="Track" FontSize="12" Click="SearchButtonTrack_Click" ></Button>
+
+        </Grid>
+        <Grid Name="SearchGridNotAvailable" Visibility="Collapsed">
+            <TextBlock HorizontalAlignment="Center" FontWeight="Bold" Width="Auto" Margin="0,10,0,0">Search not available!</TextBlock>
+        </Grid>
+    </Grid>
+
+</UserControl>

@@ -1,0 +1,384 @@
+﻿<MahAppsControls:MetroWindow x:Class="Raumwiese.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:MahAppsControls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:dragdrop="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+        xmlns:RFWpfControls="clr-namespace:RaumfeldNET.WPFControls;assembly=RaumwieseWPFControls"
+        WindowStartupLocation="CenterScreen"
+        SaveWindowPosition="True"
+        ShowIconOnTitleBar="True"
+        Icon="resources/logo32.ico"
+        Title="Raumwiese" Height="700" Width="1000" >
+
+   <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Icons.xaml" />
+                <ResourceDictionary Source="templates\ProgressBarTemplate.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+            
+            <SolidColorBrush x:Key="AccentColorBrush2" Color="{StaticResource AccentColor2}" />
+            <SolidColorBrush x:Key="AccentColorBrush3" Color="{StaticResource AccentColor3}" />
+            <SolidColorBrush x:Key="AccentColorBrush4" Color="{StaticResource AccentColor4}" />
+            <SolidColorBrush x:Key="TrackIsPlayingBrush" Color="{StaticResource AccentColor4}" />
+
+        </ResourceDictionary>
+    </Window.Resources>
+
+
+    <MahAppsControls:MetroWindow.WindowCommands>
+        <MahAppsControls:WindowCommands>            
+            <Button Content="Root" Click="ContentBrowserRootButton_ClickSink" />
+            <!--<Button Name="ButtonAbout" Content="About" Click="AboutButton_Click" />-->
+            <Button Content="" Name="VersionUpdateInfo" Visibility="Collapsed" Click="VersionUpdateInfo_Click" FontWeight="Bold" Foreground="White" />
+            <Button Content="" Name="VersionInfo" />
+        </MahAppsControls:WindowCommands>
+    </MahAppsControls:MetroWindow.WindowCommands>
+
+    <!-- Flyout Controls -->
+    <MahAppsControls:MetroWindow.Flyouts>
+        
+        <!-- Flyout Selectable Zones -->
+        <MahAppsControls:Flyout Header="Verfügbare Zonen" Name="FlyoutZones"  Margin="0,80,0,0" Background="{DynamicResource AccentColorBrush}">
+
+            <Grid Name="FlyoutZonesGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="60"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <ScrollViewer>
+                    <StackPanel HorizontalAlignment="Center"  Orientation="Vertical" Grid.Row="0">
+                        <DockPanel Name="FlyoutZonesDockPanel" HorizontalAlignment="Stretch">
+                            <!-- will be created dynamically -->
+                        </DockPanel>                       
+
+                        <DockPanel Margin="0,40,0,0" Name="FlyoutUnassignedRoomsDockPanel" HorizontalAlignment="Stretch">
+                            <!-- Will be created dynamically -->
+                        </DockPanel>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <MahAppsControls:ProgressRing Grid.Row="0" Grid.Column="0" IsActive="True" Name="FlyoutZoneSelectionProgressRing" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        
+            </Grid>
+
+        </MahAppsControls:Flyout>
+
+        <!-- Flyout Search -->
+        <MahAppsControls:Flyout Name="FlyoutSearch" Header="Search" Margin="0,80,0,0" VerticalAlignment="Top" Height="150" Background="{DynamicResource AccentColorBrush}" Position="Right">
+            <Grid>
+                <RFWpfControls:SearchContentControl MinWidth="350" Name="FlyoutSearchContentControl" Grid.Row="0" Grid.Column="0" />
+           </Grid>
+
+        </MahAppsControls:Flyout>
+
+        <!-- Volume Rotary Buttons -->
+        <MahAppsControls:Flyout Header="Lautstärke" Name="VolumeFlyout"  Margin="0,30,0,40" Background="{DynamicResource AccentColorBrush}" Position="Right">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <RFWpfControls:RotaryVolumeControl Name="MainVolumeRotaryControl"
+                                                   Grid.Row="0"
+                                                   Width="280"
+                                                   ValueFrom="0"
+                                                   ValueTo="100"
+                                                   />
+
+                <StackPanel Width="280" 
+                            Name="ZoneVolumePopupRendererStackPanel" 
+                            Grid.Row="1"
+                            HorizontalAlignment="Center"
+                            Orientation="Vertical" 
+                            VerticalAlignment="Top"/>
+          
+            </Grid>
+        </MahAppsControls:Flyout>
+
+    </MahAppsControls:MetroWindow.Flyouts>
+
+
+
+    <!-- Main -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!-- Zone Volume Popup -->
+        <Popup Name="ZoneVolumePopup" PlacementTarget="{Binding ElementName=ButtonVolumeControl}" Placement="Top"  VerticalOffset="0" HorizontalOffset="-250"
+            PopupAnimation="Slide" AllowsTransparency="False">
+            <Grid Background="{DynamicResource AccentColorBrush}">
+                <StackPanel VerticalAlignment="Center">
+                    <Label  Content="Lautstärkeregelung"  FontSize="14" FontWeight="Bold"  VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Border VerticalAlignment="Center">
+                        <!--                        
+                        <StackPanel Width="Auto" Name="ZoneVolumePopupRendererStackPanel" HorizontalAlignment="Center" Orientation="Vertical" VerticalAlignment="Center">
+                        </StackPanel>
+                        -->
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </Popup>
+
+        <Popup Name="ContentBrowserContextMenuPopup" PopupAnimation="Fade"  AllowsTransparency="True"  PlacementTarget="{Binding ElementName=ContentBrowseListControl}" Placement="Relative">
+            <RFWpfControls:ContentContextMenuControl Name="ContentBrowserContextMenu"></RFWpfControls:ContentContextMenuControl>
+        </Popup>
+
+        <Popup Name="PlaylistManagementContextMenuPopup" PopupAnimation="Fade"  AllowsTransparency="True"  PlacementTarget="{Binding ElementName=PlaylistManagementListControl}" Placement="Relative">
+            <RFWpfControls:PlaylistManagementContextMenuControl Name="PlaylistManagementContextMenu"></RFWpfControls:PlaylistManagementContextMenuControl>
+        </Popup>
+
+        <!-- Startup Grid -->
+        <Grid Name="MainGridStartup" Grid.RowSpan="2">            
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                <Image Source="/Raumwiese;component/resources/RaumwieseSplash.png" Width="250" Height="100"></Image>
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="22" FontFamily="Tahoma">Suche nach Raumfeld Medienserver</TextBlock>
+                <MahAppsControls:ProgressIndicator VerticalAlignment="Center" Margin="0,10,0,0" ProgressColour="{StaticResource AccentColorBrush}" Height="10" Width="500" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Name="MainGrid" Grid.Row="0">
+           
+                    
+                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        
+                        <Grid Name="GridZonePlaylistControl" Grid.Column="1" Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                        
+                            <DockPanel Grid.Row="0" Grid.Column="0" Margin="5,10,5,5">
+                                <Button  x:Name="FlyoutSelectZones" Style="{DynamicResource MetroCircleButtonStyle}" Height="40" Width="40" VerticalAlignment="Center" Click="buttonFlyoutSelectZones_ClickSink">
+                                    <Rectangle Width="20" Height="17.5">
+                                        <Rectangle.Fill>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_home}" />
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Button>
+                                <TextBlock  Grid.Column="1" Height="Auto" VerticalAlignment="Center" HorizontalAlignment="Stretch" FontSize="22" Padding="10,2"
+                                            Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
+                                    <Run Text="Playlist für Zone: "/><Run FontSize="16" Name="SelectedZoneInfo" Language="de-at" Text=""/></TextBlock>                        
+                                
+                            </DockPanel>
+
+                            <!-- TrackList for Current Zone -->
+                            <ListBox Grid.Column="0" Grid.Row="1" Margin="5,15,15,20" ItemsSource="{Binding}"
+                                    x:Name="ZoneTracklistControl"
+                                    SelectionMode="Extended"
+                                    HorizontalContentAlignment="Stretch" 
+                                    VerticalAlignment="Stretch"
+                                    dragdrop:DragDrop.IsDragSource="True"
+                                    dragdrop:DragDrop.IsDropTarget="True" Grid.RowSpan="2"
+                                    />
+
+                            <!-- Progress Ring for TrackList for Current Zone -->
+                            <MahAppsControls:ProgressRing Grid.Row="1" Grid.Column="0" IsActive="True" Name="ZoneTracklistProgressRingControl" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                            <!-- Zone Track Progress Bar -->
+                            <ProgressBar Value="50" IsIndeterminate="False" Margin="10,0,25,0" Height="15" Grid.Row="2"  Name="ZoneTracklistProgressBar" PreviewMouseLeftButtonUp="ZoneTracklistProgressBar_PreviewMouseLeftButtonUpSink"/>
+                            <TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0" Text="{Binding ElementName=ZoneTracklistProgressBar, Path=Value}"/>
+                            <TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,32,0" Text="{Binding ElementName=ZoneTracklistProgressBar, Path=Maximum}"/>
+
+                            <ScrollViewer  Grid.Column="0" Grid.Row="3" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                <RFWpfControls:TrackStateControl
+                                    Margin="0,5,0,0"
+                                    Name="ZoneTracklistTrackControl"
+                                    HorizontalAlignment="Center"
+                                    clickedBack="ZoneTracklistControlBack_ClickSink"
+                                    clickedNext="ZoneTracklistControlNext_ClickSink"
+                                    clickedPlayPause="ZoneTracklistControlPlayPause_ClickSink"
+                                    clickedRandom="ZoneTracklistControlRandom_ClickSink"
+                                    clickedRepeat="ZoneTracklistControlRepeat_ClickSink"
+                                    />
+                                
+                            </ScrollViewer>
+
+                        </Grid>
+
+
+                        <Grid Name="GridPlaylistManagementControl" Grid.Column="1" Grid.Row="0" Visibility="Hidden">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition Height="10"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <DockPanel Grid.Row="0" Grid.Column="0" Margin="5,10,5,5">
+                                <Button Style="{DynamicResource MetroCircleButtonStyle}" Height="40" Width="40" VerticalAlignment="Center" Click="playlistManagementListControlBrowseToParent_ClickSink">
+                                    <Rectangle Width="18" Height="18">
+                                        <Rectangle.Fill>
+                                     <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_arrow_left}" />
+                                    </Rectangle.Fill>
+                                    </Rectangle>
+                                </Button>
+                                <TextBlock  Grid.Column="1" Height="Auto" VerticalAlignment="Center" HorizontalAlignment="Stretch" FontSize="22" Padding="10,2"
+                                                    Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
+                                            <Run Text="Playlist Management: "/><Run FontSize="16" Name="PlaylistManagementSelectedPlaylistText" Language="de-at" Text=""/></TextBlock>
+
+                            </DockPanel>
+
+                            <!--  -->
+                            <ListBox Grid.Column="0" Grid.Row="1" Margin="5,15,15,20" ItemsSource="{Binding}"
+                                            x:Name="PlaylistManagementListControl"
+                                            SelectionMode="Extended"
+                                            HorizontalContentAlignment="Stretch" 
+                                            VerticalAlignment="Stretch"
+                                            dragdrop:DragDrop.IsDragSource="True"
+                                            dragdrop:DragDrop.IsDropTarget="True" Grid.RowSpan="2"
+                                            />
+
+                            <!-- Progress Ring for PlaylistManagement -->                   
+                        <MahAppsControls:ProgressRing Grid.Row="1" Grid.Column="0" IsActive="True" Name="PlaylistManagementProgressRingControl" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                        <Grid Grid.Row="3" Grid.Column="0" Margin="10,0,15,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                            
+                            <TextBox HorizontalAlignment="Stretch" Margin="3,0,3,0" Name="PlaylistNameCreateTextBox" 
+                                                 MahAppsControls:TextboxHelper.Watermark="Playlist Name..." 
+                                                 MahAppsControls:TextboxHelper.ClearTextButton="True" MinHeight="25" VerticalContentAlignment="Center"  UseLayoutRounding="False" FontSize="14"/>
+                            <Button Grid.Column="1" Name="ButtonCreatePlaylist" Grid.Row="2" Content="Erstellen" FontSize="12" Width="100" Click="buttonCreatePlaylist_ClickSink"></Button>
+                        </Grid>
+
+                </Grid>
+                        
+                        
+                <Grid Grid.Column="2" Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <!-- Browser Text for Content -->
+                            <DockPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5,10,5,5">
+                                <Button x:Name="ContentBrowserBackControl" Margin="5,0,0,0" Style="{DynamicResource MetroCircleButtonStyle}" Height="40" Width="40" VerticalAlignment="Center">
+                                    <Rectangle Width="18" Height="18">
+                                        <Rectangle.Fill>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_arrow_left}" />
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Button>
+                                <TextBlock Height="Auto" VerticalAlignment="Center" Width="Auto" FontSize="22" Padding="10,2" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
+                                <Run Text="Browse: " />
+                                <Run FontSize="16" Name="BrowsePath" Language="de-at" Text=""/></TextBlock>
+                                <Button x:Name="ContentBrowserSearchControl" Margin="0,0,10,0" Style="{DynamicResource MetroCircleButtonStyle}" Height="40" Width="40" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                    <Rectangle Width="18" Height="18">
+                                        <Rectangle.Fill>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_magnify}" />
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Button>
+                            </DockPanel>
+
+                            <RFWpfControls:SearchContentControl Name="GridSearchContentControl" Margin="0,10,0,0" Visibility="Collapsed" Grid.Row="1" Grid.Column="0" />
+
+                            <!-- list for ContentBrowse List -->
+                            <ListBox Grid.Row="2" Grid.Column="0"  Margin="5 15 15 10" ItemsSource="{Binding}"
+                                    x:Name="ContentBrowseListControl"
+                                    HorizontalContentAlignment="Stretch" 
+                                    VerticalAlignment="Stretch"
+                                     SelectionMode="Extended"
+                                    dragdrop:DragDrop.IsDragSource="True"
+                                    />
+
+                            <!-- Progress Ring for ContentBrowse List -->
+                            <MahAppsControls:ProgressRing Grid.Row="2" Grid.Column="0" IsActive="True" Name="ContentBrowselistProgressRingControl" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                            <!-- Content Selection -->
+                            <ScrollViewer Grid.Column="0" Grid.Row="3" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                            <Grid Width="410">
+                            <StackPanel Orientation="Horizontal" Width="Auto">
+                            <!-- MyMusic -->
+                                <RFWpfControls:ImageButtonRectControl Margin="0,0,0,0" ImageWidth="40" Width="60" Height="60" Text="Meine Musik" ImageSource="/Raumwiese;component/resources/mymusic.png" clicked="contentBrowserSwitchMyMusic_ClickSink"/>
+
+                                    <!-- Napster -->
+                                <RFWpfControls:ImageButtonRectControl Margin="10,0,0,0" ImageWidth="40" Width="60" Height="60" Text="Napster" ImageSource="/Raumwiese;component/resources/napster.png" clicked="contentBrowserSwitchNapster_ClickSink"/>
+
+                                    <!-- Simfy -->
+                                <RFWpfControls:ImageButtonRectControl Margin="10,0,0,0" ImageWidth="40" Width="60" Height="60" Text="Simfy"  ImageSource="/Raumwiese;component/resources/simfy2.png" clicked="contentBrowserSwitchSimfy_ClickSink"/>
+
+                                    <!-- Playlists -->
+                                <RFWpfControls:ImageButtonRectControl Margin="10,0,0,0" ImageWidth="40" Width="60" Height="60" Text="Playlisten" ImageSource="/Raumwiese;component/resources/playlist.png" clicked="contentBrowserSwitchPlaylists_ClickSink"/>                           
+
+                                    <!-- LastFm -->
+                                <RFWpfControls:ImageButtonRectControl Margin="10,0,0,0" ImageWidth="40" Width="60" Height="60" Text="Last.fm" ImageSource="/Raumwiese;component/resources/lastfm.png" clicked="contentBrowserSwitchLastFm_ClickSink"/>
+
+                                    <!-- TuneIn -->
+                                <RFWpfControls:ImageButtonRectControl Margin="10,0,0,0" ImageWidth="40" Width="60"  Text="TuneIn" ImageSource="/Raumwiese;component/resources/tunein.png" clicked="contentBrowserSwitchTuneIn_ClickSink"/>
+
+                            </StackPanel>
+                        </Grid>
+                    </ScrollViewer>
+                            
+                        </Grid>
+
+                    </Grid>
+        </Grid>
+
+        <Grid Name="ScopeHandlerGrid" Grid.Row="2" Height="40" Background="{DynamicResource AccentColorBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="0"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <RFWpfControls:ImageButtonControl VerticalAlignment="Center" Margin="0,0,10,0" Grid.Column="1" ImageHeight="30" FontSize="14" Foreground="White" ImageSource="/Raumwiese;component/resources/home.png" Text="HOME" clicked="buttonHomeControl_ClickSink"/>            
+            <RFWpfControls:ImageButtonControl VerticalAlignment="Center" Margin="0,0,10,0" Grid.Column="2" ImageHeight="30" FontSize="14" Foreground="White" ImageSource="/Raumwiese;component/resources/music_library.png" Text="PLAYLISTEN VERWALTEN" clicked="buttonPlaylistManagementControl_ClickSink"/>
+            <!--<RFWpfControls:ImageButtonControl VerticalAlignment="Center" Margin="0,0,10,0" Grid.Column="3" ImageHeight="30" FontSize="14" Foreground="White" ImageSource="/Raumwiese;component/resources/star_2.png" Text="FAVOURITEN VERWALTEN"/>-->
+            <!--<RFWpfControls:ImageButtonControl VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="5" ImageHeight="30" FontSize="14" Foreground="White" ImageSource="/Raumwiese;component/resources/technical_wrench.png" Text="EINSTELLUNGEN"/>-->
+
+            <RFWpfControls:VolumeSliderControl Name="ZoneMainVolumeControl" VerticalAlignment="Center" Grid.Column="6" HorizontalContentAlignment="Stretch" Width="200"  HorizontalAlignment="Stretch"></RFWpfControls:VolumeSliderControl>
+            <!--<RFWpfControls:ImageButtonControl Name="ButtonVolumeControl" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="7" ImageHeight="35" FontSize="14" Foreground="White" ImageSource="/Raumwiese;component/resources/audio_volume_slider.png" Text="" clicked="buttonZoneVolumeControl_ClickSink"/>-->
+            <RFWpfControls:ImageButtonControl Name="ButtonVolumeRotaryControl" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="8" ImageHeight="35" FontSize="14" Foreground="White" ImageSource="/Raumwiese;component/resources/audio_equalizer.png" Text="" clicked="ButtonVolumeRotaryControl_ClickSink"/>
+            
+        </Grid>          
+
+        </Grid>
+    
+</MahAppsControls:MetroWindow>

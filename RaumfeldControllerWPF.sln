@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaumfeldControllerWPFControls", "RaumfeldControllerWPFControls\RaumfeldControllerWPFControls.csproj", "{4706FE49-E36C-4EB9-A887-676D6B6A7FDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaumfeldNET", "RaumfeldNET\RaumfeldNET.csproj", "{A3ACE275-9F59-43C2-B6BF-E047F1C0A3E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaumfeldNET_TestProject", "RaumfeldNET_TestProject\RaumfeldNET_TestProject.csproj", "{1036372E-EB7D-4323-8215-44AA43B54F54}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Raumwiese", "Raumwiese\Raumwiese.csproj", "{8DCD1D6D-7CA7-4544-AE62-FF4391EC51D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppUpdater", "AppUpdater\AppUpdater.csproj", "{87552938-8244-43A6-A27D-7D6962E52365}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4706FE49-E36C-4EB9-A887-676D6B6A7FDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4706FE49-E36C-4EB9-A887-676D6B6A7FDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4706FE49-E36C-4EB9-A887-676D6B6A7FDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4706FE49-E36C-4EB9-A887-676D6B6A7FDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3ACE275-9F59-43C2-B6BF-E047F1C0A3E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3ACE275-9F59-43C2-B6BF-E047F1C0A3E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3ACE275-9F59-43C2-B6BF-E047F1C0A3E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3ACE275-9F59-43C2-B6BF-E047F1C0A3E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1036372E-EB7D-4323-8215-44AA43B54F54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1036372E-EB7D-4323-8215-44AA43B54F54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1036372E-EB7D-4323-8215-44AA43B54F54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1036372E-EB7D-4323-8215-44AA43B54F54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DCD1D6D-7CA7-4544-AE62-FF4391EC51D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DCD1D6D-7CA7-4544-AE62-FF4391EC51D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DCD1D6D-7CA7-4544-AE62-FF4391EC51D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DCD1D6D-7CA7-4544-AE62-FF4391EC51D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87552938-8244-43A6-A27D-7D6962E52365}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87552938-8244-43A6-A27D-7D6962E52365}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87552938-8244-43A6-A27D-7D6962E52365}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87552938-8244-43A6-A27D-7D6962E52365}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,77 @@
+﻿<UserControl 
+    Name="VolumeSlider"
+    x:Class="RaumfeldNET.WPFControls.VolumeSliderControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    mc:Ignorable="d" RenderTransformOrigin="0,0">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+                <ResourceDictionary Source="Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="Auto" MinWidth="160">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="35"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="10"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.Background>
+            <SolidColorBrush Color="{Binding Path=Color, ElementName=VolumeSlider}" />
+        </Grid.Background>
+
+
+        <Button Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Center" Name="MuteButton" Margin="0,0,0,0" Visibility="Hidden" Style="{DynamicResource MetroCircleButtonStyle}" Height="35" Width="35" Click="MuteButton_Click">
+            <Rectangle Width="15" Height="17" Margin="0,0,0,0">
+                <Rectangle.Resources>
+                    <SolidColorBrush x:Key="BlackBrush" Color="{Binding Path=ComplementaryColor, ElementName=VolumeSlider}"></SolidColorBrush>
+                </Rectangle.Resources>
+                <Rectangle.Fill>
+                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_sound_3}" />
+                </Rectangle.Fill>
+            </Rectangle>
+        </Button>
+
+        <Button Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Center" Name="UnMuteButton" Margin="0,0,0,0"  Style="{DynamicResource MetroCircleButtonStyle}" Height="35" Width="35"  Click="UnMuteButton_Click">
+            <Rectangle Width="15" Height="17" Margin="0,0,0,0">
+                <Rectangle.Resources>
+                    <SolidColorBrush x:Key="BlackBrush" Color="{Binding Path=ComplementaryColor, ElementName=VolumeSlider}"></SolidColorBrush>
+                </Rectangle.Resources>
+                <Rectangle.Fill>
+                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_sound_mute}" />
+                </Rectangle.Fill>
+            </Rectangle>
+        </Button>
+
+        <Slider Name="MainSlider" SmallChange="1" LargeChange="1" Grid.Column="2" IsMoveToPointEnabled="True" Orientation="Horizontal"></Slider>
+
+        <TextBlock Margin="0,-5,0,5" Visibility="Collapsed" Grid.Column="2" Grid.Row="1" Name="Text" Text="{Binding Path=SliderText, ElementName=VolumeSlider}">
+            <TextBlock.Foreground>
+                <SolidColorBrush  Color="{Binding Path=ComplementaryColor, ElementName=VolumeSlider}"></SolidColorBrush>
+            </TextBlock.Foreground>
+        </TextBlock>
+        
+        
+    </Grid>
+    
+</UserControl>
