@@ -30,10 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ohNet.net, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\RaumfeldNET_TestProject\bin\Debug\ohNet.net.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -53,6 +49,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="Mono.Data.Sqlite" />
+    <Reference Include="ohNet.net">
+      <HintPath>..\ohNet.net.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base.cs" />
@@ -80,11 +80,10 @@
     <Compile Include="UPNP\UPNPWrapper.cs" />
     <Compile Include="Zone.cs" />
     <Compile Include="ZoneManager.cs" />
+    <Compile Include="monomocks\Imaging.cs" />
+    <Compile Include="monomocks\SQLite.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="x64\SQLite.Interop.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="x86\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -100,4 +99,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Folder Include="monomocks\" />
+  </ItemGroup>
 </Project>
